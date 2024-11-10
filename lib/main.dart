@@ -31,6 +31,12 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
         int selectedItem = 0;
+        static var div = const Divider(
+                thickness: 1,
+                indent: 16,
+                endIndent: 16,
+                color: Color(0xFF000000)
+        );
 
         void _onSelect(int index) {
                 setState(() {
@@ -45,7 +51,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         context: context,
                         builder: (BuildContext context) => AlertDialog(
 
-                                title: const Text("Foo"),
+                                title: const Text("Foo", style: TextStyle(color: Color(0xFFFFFFFF))),
                                 content: SizedBox(
                                         width: MediaQuery.of(context).size.width / 3,
                                         child: Column(
@@ -80,26 +86,16 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                         // ignore: prefer_const_constructors
                         body: Center(
-                                // ignore: prefer_const_constructors
                                 child: Column(
                                         mainAxisAlignment: MainAxisAlignment.start,
-                                        // ignore: prefer_const_literals_to_create_immutables
                                         children: [
                                                 const SizedBox(height: 20),
-                                                // ignore: prefer_const_constructors
-                                                Padding(
-                                                        padding: const EdgeInsets.all(16),
-                                                        child: const Row(
-                                                                mainAxisAlignment: MainAxisAlignment.start,
-                                                                children: [
-                                                                        SizedBox(height: 10),
-                                                                        Text("Hello, world!", style: TextStyle(fontSize: 16),),
-                                                                        
-                                                                        SizedBox(height: 10),
-                                                                ],
-                                                        ),
-                                                ),
-                                                const Divider(thickness: 1, indent: 16, endIndent: 16, color: Color(0xFF000000)),
+                                                const DownloadsListItems(title: "Foo"),
+                                                div,
+                                                const DownloadsListItems(title: "Bar"),
+                                                div,
+                                                const DownloadsListItems(title: "Baz"),
+                                                div
                                         ],
                                 ),
                         ),
@@ -109,11 +105,11 @@ class _MyHomePageState extends State<MyHomePage> {
                                         padding: const EdgeInsets.only(top: 5, left: 10, right: 10),
                                         child: Row(
                                                 children: [
-                                                        _navIcon(Icons.add, 0),
+                                                        _navIcon(Icons.add, 0, "Add new download(s)"),
                                                         const SizedBox(width: 30),
-                                                        _navIcon(Icons.list_outlined, 1),
+                                                        _navIcon(Icons.list_outlined, 1, "See list of currently ongoing downloads"),
                                                         const SizedBox(width: 30),
-                                                        _navIcon(Icons.library_add_check_outlined, 2),
+                                                        _navIcon(Icons.library_add_check_outlined, 2, "See all finished downloads"),
                                                 ],
                                         ),
                                 ),
@@ -128,7 +124,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 );
         }
         
-        Widget _navIcon(IconData icon, int index) {
+        Widget _navIcon(IconData icon, int index, String? tooltip) {
                 bool selected = selectedItem == index;
 
                 return GestureDetector(
@@ -150,8 +146,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                                         selected 
                                                         ? const Color(0xFFFFFFFF)
                                                         : const Color(0xFFB2B2B2),
-                                                size: 25), 
-
+                                                size: 25,
+                                        ), 
+                                        Tooltip(message: tooltip)
                                 ],
                         ),
                 );
@@ -159,19 +156,19 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 class DownloadsListItems extends StatelessWidget {
-        const DownloadsListItems({super.key});
+        const DownloadsListItems({super.key, required this.title});
+        final String title;
 
         @override
         Widget build(BuildContext context) {
                 return Padding(
                         padding: const EdgeInsets.all(16),
-                        child: const Row(
+                        child: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                        SizedBox(height: 10),
-                                        Text("Hello, world!", style: TextStyle(fontSize: 16),),
-                                        
-                                        SizedBox(height: 10),
+                                        const SizedBox(height: 10),
+                                        Text(title, style: const TextStyle(fontSize: 16)),
+                                        const SizedBox(height: 10),
                                 ],
                         ),
                 );
