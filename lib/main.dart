@@ -32,7 +32,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
         int selectedItem = 0;
         static var div = const Divider(
-                thickness: 1,
+                thickness: 0.1,
                 indent: 16,
                 endIndent: 16,
                 color: Color(0xFF000000)
@@ -50,8 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 showDialog(
                         context: context,
                         builder: (BuildContext context) => AlertDialog(
-
-                                title: const Text("Foo", style: TextStyle(color: Color(0xFFFFFFFF))),
+                                title: const Text("Foo", style: TextStyle(color: Color(0x00000000))),
                                 content: SizedBox(
                                         width: MediaQuery.of(context).size.width / 3,
                                         child: Column(
@@ -86,17 +85,18 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                         // ignore: prefer_const_constructors
                         body: Center(
-                                child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        children: [
+                                child: Padding(
+                                        padding: const EdgeInsets.all(8),
+                                        child: Column(children: [
                                                 const SizedBox(height: 20),
-                                                const DownloadsListItems(title: "Foo"),
+                                                const DownloadsListItems(title: "foo.exe", path: "/home/user/Downloads/ODM/foo.exe"),
                                                 div,
-                                                const DownloadsListItems(title: "Bar"),
+                                                const DownloadsListItems(title: "bar.sh", path: "/home/user/Downloads/ODM/bar.sh"),
                                                 div,
-                                                const DownloadsListItems(title: "Baz"),
+                                                const DownloadsListItems(title: "baz.tar.xz", path: "/home/user/Downloads/baz.tar.xz"),
                                                 div
-                                        ],
+                                                ]
+                                        ),
                                 ),
                         ),
                         bottomNavigationBar: BottomAppBar(
@@ -156,8 +156,9 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 class DownloadsListItems extends StatelessWidget {
-        const DownloadsListItems({super.key, required this.title});
+        const DownloadsListItems({super.key, required this.title, required this.path});
         final String title;
+        final String path;
 
         @override
         Widget build(BuildContext context) {
@@ -168,7 +169,9 @@ class DownloadsListItems extends StatelessWidget {
                                 children: [
                                         const SizedBox(height: 10),
                                         Text(title, style: const TextStyle(fontSize: 16)),
-                                        const SizedBox(height: 10),
+                                        const Expanded(flex: 6, child: SizedBox(height: 10)),
+                                        Text(path, style: const TextStyle(fontSize: 12)),
+                                        const Expanded(flex: 0, child: SizedBox(height: 10, width: 5))
                                 ],
                         ),
                 );
