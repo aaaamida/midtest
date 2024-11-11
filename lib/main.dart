@@ -105,11 +105,11 @@ class _MyHomePageState extends State<MyHomePage> {
                                         padding: const EdgeInsets.only(top: 5, left: 10, right: 10),
                                         child: Row(
                                                 children: [
-                                                        _navIcon(Icons.add, 0, "Add new download(s)"),
+                                                        _navIcon(Icons.add, 0),
                                                         const SizedBox(width: 30),
-                                                        _navIcon(Icons.list_outlined, 1, "See list of currently ongoing downloads"),
+                                                        _navIcon(Icons.list_outlined, 1),
                                                         const SizedBox(width: 30),
-                                                        _navIcon(Icons.library_add_check_outlined, 2, "See all finished downloads"),
+                                                        _navIcon(Icons.library_add_check_outlined, 2),
                                                 ],
                                         ),
                                 ),
@@ -124,7 +124,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 );
         }
         
-        Widget _navIcon(IconData icon, int index, String? tooltip) {
+        Widget _navIcon(IconData icon, int index) {
                 bool selected = selectedItem == index;
 
                 return GestureDetector(
@@ -148,7 +148,6 @@ class _MyHomePageState extends State<MyHomePage> {
                                                         : const Color(0xFFB2B2B2),
                                                 size: 25,
                                         ), 
-                                        Tooltip(message: tooltip)
                                 ],
                         ),
                 );
@@ -169,9 +168,25 @@ class DownloadsListItems extends StatelessWidget {
                                 children: [
                                         const SizedBox(height: 10),
                                         Text(title, style: const TextStyle(fontSize: 16)),
-                                        const Expanded(flex: 6, child: SizedBox(height: 10)),
+                                        const Expanded(flex: 10, child: SizedBox(height: 10)),
                                         Text(path, style: const TextStyle(fontSize: 12)),
-                                        const Expanded(flex: 0, child: SizedBox(height: 10, width: 5))
+                                        Expanded(flex: 2, child: IconButton(onPressed: null, icon: _navIcon(Icons.more_vert_rounded)))
+                                ],
+                        ),
+                );
+        }
+
+        Widget _navIcon(IconData icon) {
+                return GestureDetector(
+                        onTap: null,
+                        child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                        Icon(
+                                                icon, 
+                                                color: const Color(0xFF000000),
+                                                size: 25,
+                                        ), 
                                 ],
                         ),
                 );
