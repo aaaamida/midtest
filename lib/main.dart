@@ -4,6 +4,7 @@ void main() {
         runApp(const MyApp());
 }
 
+// class container seluruh aplikasi
 class MyApp extends StatelessWidget {
         const MyApp({super.key});
 
@@ -21,6 +22,7 @@ class MyApp extends StatelessWidget {
         }
 }
 
+// class container home page 
 class MyHomePage extends StatefulWidget {
         const MyHomePage({super.key, required this.title});
         final String title;
@@ -29,8 +31,11 @@ class MyHomePage extends StatefulWidget {
         State<MyHomePage> createState() => _MyHomePageState();
 }
 
+// class builder untuk container homepage
 class _MyHomePageState extends State<MyHomePage> {
         int selectedItem = 0;
+
+        // class div untuk memisahkan tiap item dengan garis horizontal
         static var div = const Divider(
                 thickness: 0.1,
                 indent: 16,
@@ -38,17 +43,20 @@ class _MyHomePageState extends State<MyHomePage> {
                 color: Color(0xFF000000)
         );
 
+        // method untuk mengubah state item setelah dipilih
         void _onSelect(int index) {
                 setState(() {
                         selectedItem = index;
                 });
         }
 
+        // method memunculkan AlertDialog yang berisi TextField
         void inputPopup(BuildContext context) {
                 TextEditingController linkCtl = TextEditingController();
 
                 showDialog(
                         context: context,
+                        // arrow function yang memanggil AlertDialog
                         builder: (BuildContext context) => AlertDialog(
                                 title: const Text("Foo", style: TextStyle(color: Color(0x00000000))),
                                 content: SizedBox(
@@ -63,15 +71,51 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 ],
                                         ),
                                 ),
+                                // pilihan dalam AlertDialog saat dimunculkan
                                 actions: [
                                         const TextButton(onPressed: null, child: Text("Submit")),
                                         const SizedBox(width: 15),
                                         TextButton(
+                                                // tutup AlertDialog saat ditekan
                                                 onPressed: () => Navigator.of(context).pop(),
                                                 child: const Text("Cancel")
                                         ),
                                 ],
                         )
+                );
+        }
+
+        // method untuk mengubah state dari icon di navigation bar
+        Widget _navIcon(IconData icon, int index) {
+                bool selected = selectedItem == index;
+
+                return GestureDetector(
+                        // panggil method untuk mengubah index
+                        onTap: () => _onSelect(index),
+                        // container column untuk indikator icon terpilih
+                        child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                        // jika terpilih munculkan indikator 
+                                        if (selected) Container(
+                                                height: 3,
+                                                width: 3,
+                                                decoration: BoxDecoration(
+                                                        color: const Color(0xFFFFFFFF),
+                                                        borderRadius: BorderRadius.circular(2)
+                                                ),
+                                        ),
+                                        Icon(
+                                                icon, 
+                                                color: 
+                                                // jika terpilih ubah warna icon menjadi putih
+                                                        selected 
+                                                        ? const Color(0xFFFFFFFF)
+                                                        : const Color(0xFFB2B2B2),
+                                                size: 25,
+                                        ), 
+                                ],
+                        ),
                 );
         }
 
@@ -84,11 +128,11 @@ class _MyHomePageState extends State<MyHomePage> {
                                 backgroundColor: const Color(0xFF634F88),
                         ),
                         // ignore: prefer_const_constructors
+                        // container center 
                         body: Center(
                                 child: Padding(
                                         padding: const EdgeInsets.all(8),
                                         child: Column(children: [
-                                                const SizedBox(height: 20),
                                                 const DownloadsListItems(title: "foo.exe", path: "/home/user/Downloads/ODM/foo.exe"),
                                                 div,
                                                 const DownloadsListItems(title: "bar.sh", path: "/home/user/Downloads/ODM/bar.sh"),
@@ -115,46 +159,20 @@ class _MyHomePageState extends State<MyHomePage> {
                                 ),
                         ),
                         floatingActionButton: FloatingActionButton(
+                                // panggil method inputPopup saat tombol ditekan
                                 onPressed: () => inputPopup(context),
                                 backgroundColor: const Color(0xFF8B6EBF),
                                 hoverColor: const Color(0xFFB993FF),
                                 tooltip: "Add new...",
+                                // icon didalam tombol
                                 child: const Icon(Icons.add, color: Color(0xFFFFFFFF)),
-                        ),
-                );
-        }
-        
-        Widget _navIcon(IconData icon, int index) {
-                bool selected = selectedItem == index;
-
-                return GestureDetector(
-                        onTap: () => _onSelect(index),
-                        child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                        if (selected) Container(
-                                                height: 3,
-                                                width: 3,
-                                                decoration: BoxDecoration(
-                                                        color: const Color(0xFFFFFFFF),
-                                                        borderRadius: BorderRadius.circular(2)
-                                                ),
-                                        ),
-                                        Icon(
-                                                icon, 
-                                                color: 
-                                                        selected 
-                                                        ? const Color(0xFFFFFFFF)
-                                                        : const Color(0xFFB2B2B2),
-                                                size: 25,
-                                        ), 
-                                ],
                         ),
                 );
         }
 }
 
 class DownloadsListItems extends StatelessWidget {
+        // class constructor dengan dua property yaitu nama file dan lokasi file
         const DownloadsListItems({super.key, required this.title, required this.path});
         final String title;
         final String path;
@@ -163,13 +181,17 @@ class DownloadsListItems extends StatelessWidget {
         Widget build(BuildContext context) {
                 return Padding(
                         padding: const EdgeInsets.all(16),
+                        // container row arah menyamping
                         child: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
+                                // isi dari container row
                                 children: [
                                         const SizedBox(height: 10),
                                         Text(title, style: const TextStyle(fontSize: 16)),
+                                        // container expanded yang ukurannya dapat berubah sesuai ukuran layar
                                         const Expanded(flex: 10, child: SizedBox(height: 10)),
                                         Text(path, style: const TextStyle(fontSize: 12)),
+                                        // container expanded yang berisi tombol berisi icon
                                         Expanded(flex: 2, child: IconButton(onPressed: null, icon: _navIcon(Icons.more_vert_rounded)))
                                 ],
                         ),
